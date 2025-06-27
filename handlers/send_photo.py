@@ -2,6 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message, FSInputFile, BufferedInputFile
 from PIL import Image, ImageDraw, ImageFont
 from data.database import DB_Users as db
+from keyboard.reply import menu
 import io
 
 router = Router()
@@ -15,6 +16,27 @@ async def send_ticket(message: Message):
     
     # Отправляем пользователю
     await message.answer_photo(photo=photo, caption=f"Вот ваш билет, {user_name}!")
+
+
+@router.message(F.text == "🎟️Билет")
+async def menu_d(message: Message):
+    user_name = await db.select_name(message.from_user.id)
+    photo = await edit_ticket(user_name)
+
+    await message.answer_photo(photo=photo, caption=f"Вот ваш билет, {user_name}!")
+    
+    
+@router.message(F.text == "📍Локация")
+async def send_map(message: Message):
+    img = Image.open("data/photo/map.png").convert("RGB")
+    buffer = io.BytesIO()
+    img.save(buffer, format="JPEG")
+    buffer.seek(0)
+
+    photo = BufferedInputFile(buffer.read(), filename="ticket.jpg")
+    
+    await message.answer_photo(photo=photo, caption=f"На фото локация проведения мероприятия🤓",
+                               reply_markup=menu)
 
 
 async def edit_ticket(user_name):

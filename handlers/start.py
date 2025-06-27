@@ -4,6 +4,7 @@ from aiogram.filters import CommandStart
 
 from data.database import DB_Users as db_us
 from handlers.send_photo import edit_ticket
+from keyboard.reply import menu
 
 router = Router()
 
@@ -21,4 +22,5 @@ async def start_command(message: Message):
 
     photo = await edit_ticket(full_name)
 
-    await message.answer_photo(photo=photo, caption=f"Вот ваш билет, {full_name}! \n*дальше инфа какая-то вводная*")
+    await message.answer_photo(photo=photo, caption=f"Вот ваш билет, {full_name}! \n*дальше инфа какая-то вводная*",
+                               reply_markup=menu)
