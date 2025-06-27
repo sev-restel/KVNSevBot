@@ -3,6 +3,7 @@ from aiogram import Bot, Dispatcher
 
 from handlers import (messages, start, send_photo)
 from data.database import DB_Users
+from handlers.spam import scheduled_mailing
 
 from config_reader import config
 from aiogram.client.bot import DefaultBotProperties
@@ -17,7 +18,7 @@ async def main(bot):
 
     #добавляю себя в качестве перманентного админа и юзера
     await DB_Users.add_admin(config.admin_id.get_secret_value(), "главный админ", "главный админ")
-    await DB_Users.add_user(config.admin_id.get_secret_value(), "Yarik")
+    await DB_Users.add_user(config.admin_id.get_secret_value(), "Ярик", "restel321")
 
     dp.include_routers(
         start.router,
@@ -25,6 +26,8 @@ async def main(bot):
         messages.router
     )
 
+    asyncio.create_task(scheduled_mailing(bot))
+    
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 

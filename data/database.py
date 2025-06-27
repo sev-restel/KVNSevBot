@@ -14,7 +14,8 @@ class DataBaseUsers:
             #добавить значение дл использованных цитат
             await sql.executescript(f"""CREATE TABLE IF NOT EXISTS users (
                 tg_id INT UNIQUE,
-                name TEXT,                 
+                name TEXT,
+                us_name TEXT,                
                 count INT)""")
             
             await sql.executescript(f"""CREATE TABLE IF NOT EXISTS admins (
@@ -24,16 +25,17 @@ class DataBaseUsers:
 
             await conn.commit()
     
-    async def add_user(self, tg_user_id, name, count = 0):
+    async def add_user(self, tg_user_id, name, us_name, count = 0):
         async with aiosqlite.connect(self.db_file) as conn:
             sql = await conn.cursor()
 
-            await sql.execute("""INSERT OR IGNORE INTO users (
+            await sql.execute("""INSERT OR REPLACE INTO users (
                     tg_id,
                     name,
+                    us_name,
                     count) 
-                    VALUES (?, ?, ?)""",
-                    (tg_user_id, name, count))
+                    VALUES (?, ?, ?, ?)""",
+                    (tg_user_id, name, us_name, count))
             await conn.commit()
     
     async def add_admin(self, tg_admin_id, name, user_name):
@@ -55,6 +57,15 @@ class DataBaseUsers:
             await sql.execute(f"SELECT name FROM {table} WHERE tg_id={id}")
             data = await sql.fetchall()
             return data[0][0]
+    
+    async def get_all_users(self):
+        async with aiosqlite.connect(self.db_file) as conn:
+            cursor = await conn.cursor()
+            
+            await cursor.execute("SELECT tg_id, name FROM users")
+            users = await cursor.fetchall()
+            
+            return [user for user in users]
 
 
 DB_Users = DataBaseUsers(config.path_users.get_secret_value())
