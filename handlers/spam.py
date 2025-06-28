@@ -7,7 +7,7 @@ async def scheduled_mailing(bot):
         now = datetime.now().time()
         target_time_1 = time(17, 00)  # 17:00
         target_time_2 = time(18, 00)  # 18:00
-        target_time_3 = time(19, 20)  # 19:20
+        target_time_3 = time(19, 00)  # 19:00
 
         if now.hour == target_time_1.hour and now.minute == target_time_1.minute:
                 await send_wave(bot, wave_one)

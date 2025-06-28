@@ -1,5 +1,6 @@
 from aiogram import Router
 from aiogram.types import Message
+from keyboard.reply import menu
 
 router = Router()
 
@@ -7,5 +8,6 @@ router = Router()
 @router.message()
 async def echo(message: Message):
     await message.reply(
-        "⚠️Не понял тебя, напиши команду заного⚠️\n"
+        "⚠️Не понял тебя, напиши команду заново⚠️\n",
+        reply_markup=menu
     )
