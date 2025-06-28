@@ -18,7 +18,7 @@ async def main(bot):
 
     #добавляю себя в качестве перманентного админа и юзера
     await DB_Users.add_admin(config.admin_id.get_secret_value(), "главный админ", "главный админ")
-    await DB_Users.add_user(config.admin_id.get_secret_value(), "Ярик", "restel321")
+    await DB_Users.add_user(config.admin_id.get_secret_value(), "ярик", "restel321")
 
     dp.include_routers(
         start.router,

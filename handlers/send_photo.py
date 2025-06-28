@@ -35,7 +35,7 @@ async def send_map(message: Message):
 
     photo = BufferedInputFile(buffer.read(), filename="ticket.jpg")
     
-    await message.answer_photo(photo=photo, caption=f"На фото локация проведения мероприятия🤓",
+    await message.answer_photo(photo=photo, caption=f"Вот инструкция как добраться к нам!",
                                reply_markup=menu)
 
 
