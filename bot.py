@@ -1,7 +1,8 @@
+#ЭТО ТЕСТОВЫЙ БОТ
 import asyncio
 from aiogram import Bot, Dispatcher
 
-from handlers import (messages, start, send_photo)
+from handlers import (messages, start, send_photo, feedback)
 from data.database import DB_Users
 from handlers.spam import scheduled_mailing
 
@@ -23,6 +24,7 @@ async def main(bot):
     dp.include_routers(
         start.router,
         send_photo.router,
+        feedback.router,
         messages.router
     )
 
