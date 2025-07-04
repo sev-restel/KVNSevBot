@@ -4,7 +4,7 @@ from pydantic import SecretStr
 class Settings(BaseSettings):
     bot_token: SecretStr
     admin_id: SecretStr
-    path_quotes: SecretStr
+    path_notification: SecretStr
     path_users: SecretStr
 
     model_config: SettingsConfigDict = SettingsConfigDict(

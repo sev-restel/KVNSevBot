@@ -12,14 +12,14 @@ router = Router()
 #приветственное сообщение
 @router.message(CommandStart())
 async def start_command(message: Message):
-    full_name = (message.from_user.first_name or "") + " " + (message.from_user.last_name or "")
-    full_name = full_name.strip()
-    if len(full_name) <= 1: full_name = "Гость"
-    if len(full_name) > 26: full_name = full_name[:27] + "."
+    #переделать: в бд заносить всё имя, для билета установить проверку длинны имени
+    user = message.from_user
+    full_name, username = user.full_name, user.username
+    if not username: username = "-"
+    if len(user.full_name.strip()) < 1: full_name = "Гость"
+    elif len(user.full_name) > 26: full_name = user.full_name[:26] + "."
     
-    username = message.from_user.username
-    
-    await db_us.add_user(message.from_user.id, full_name, username)
+    await db_us.add_user(user.id, full_name, user.username)
 
     photo = await edit_ticket(full_name)
 

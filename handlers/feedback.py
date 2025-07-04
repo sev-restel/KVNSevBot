@@ -9,7 +9,7 @@ from keyboard.reply import menu
 from keyboard.inline import cancel
 from data.database import DB_Users as db_us
 from utils.states import FeedBack
-from bot import bot
+from config import bot
 
 
 router = Router()
